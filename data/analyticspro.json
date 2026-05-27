@@ -1,0 +1,31 @@
+{
+  "subscribers": [],
+  "waitlist": [
+    {
+      "id": 1,
+      "name": "Himanshu Vishwakarma",
+      "email": "hi.himanshu21@gmail.com",
+      "company": "Kaizen art and craft",
+      "created_at": "2026-05-27T13:50:48.816Z"
+    }
+  ],
+  "contacts": [],
+  "users": [
+    {
+      "id": 1,
+      "name": "himanshu",
+      "email": "hi.himanshu21@gmail.com",
+      "password": "$2a$12$qoE6VOYzYWD4CN8mjazJ..S0z9UZU4ZKLhMlZiOy4LNB6runqc/Wu",
+      "role": "user",
+      "email_verified": 0,
+      "email_verify_token": "ae6c093cbd53460d0db6f60bbbf2c9998b18c3c143ff9b2b65bca99703e28a0a",
+      "password_reset_token": null,
+      "password_reset_expires": null,
+      "login_attempts": 0,
+      "lockout_until": null,
+      "google_id": null,
+      "avatar_url": null,
+      "created_at": "2026-05-27T13:52:17.317Z"
+    }
+  ]
+}
