@@ -175,6 +175,7 @@ export const db = {
   setPasswordResetToken: (id: number): string => {
     const store = load();
     const idx = store.users.findIndex((u) => u.id === id);
+    if (idx === -1) throw new Error("User not found");
     const token = crypto.randomBytes(32).toString("hex");
     const expires = new Date(Date.now() + 60 * 60 * 1000).toISOString();
     store.users[idx] = { ...store.users[idx], password_reset_token: token, password_reset_expires: expires };
@@ -189,6 +190,14 @@ export const db = {
         new Date(u.password_reset_expires) > new Date()
     );
     return user ?? null;
+  },
+
+  updateUserGoogleId: (id: number, googleId: string) => {
+    const store = load();
+    const idx = store.users.findIndex((u) => u.id === id);
+    if (idx === -1) return;
+    store.users[idx] = { ...store.users[idx], google_id: googleId, email_verified: 1 };
+    save(store);
   },
 
   updatePassword: (id: number, hashedPassword: string) => {

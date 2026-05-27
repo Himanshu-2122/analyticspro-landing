@@ -54,7 +54,7 @@ export default function AdminPage() {
       <Section title="Contact Messages" count={contacts.length}>
         <Table
           headers={["Name", "Email", "Message", "Date"]}
-          rows={contacts.map((c) => [c.name, c.email, c.message.slice(0, 80) + (c.message.length > 80 ? "…" : ""), fmt(c.created_at)])}
+          rows={contacts.map((c) => { const msg = c.message ?? ""; return [c.name, c.email, msg.slice(0, 80) + (msg.length > 80 ? "…" : ""), fmt(c.created_at)]; })}
           empty="No messages yet."
         />
       </Section>

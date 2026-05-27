@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifyToken } from "@/lib/auth";
+import { COOKIE_NAME } from "@/lib/constants";
 import Link from "next/link";
 
 const navItems = [
@@ -14,7 +15,7 @@ const navItems = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = cookies();
-  const token = cookieStore.get("ap_token")?.value;
+  const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) redirect("/?auth=required");
 
   const payload = verifyToken(token);
@@ -51,7 +52,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="p-3 border-t border-white/[0.06]">
           <div className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/[0.05] transition-all cursor-pointer">
             <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-xs shrink-0">
-              {payload.name[0].toUpperCase()}
+              {(payload.name?.[0] ?? "U").toUpperCase()}
             </div>
             <div className="min-w-0">
               <div className="text-white text-xs font-semibold truncate">{payload.name}</div>

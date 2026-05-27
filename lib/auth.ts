@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { COOKIE_NAME } from "./constants";
+
+export { COOKIE_NAME };
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "dev_secret_change_me_in_production";
 const SECURE = process.env.NODE_ENV === "production";
@@ -33,8 +36,6 @@ export async function comparePassword(plain: string, hashed: string): Promise<bo
 }
 
 // ─── Cookie helpers ──────────────────────────────────────────────────────────
-
-export const COOKIE_NAME = "ap_token";
 
 export function setAuthCookie(res: NextResponse, token: string): void {
   res.cookies.set(COOKIE_NAME, token, {

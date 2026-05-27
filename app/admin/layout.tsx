@@ -1,11 +1,12 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifyToken } from "@/lib/auth";
+import { COOKIE_NAME } from "@/lib/constants";
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = cookies();
-  const token = cookieStore.get("ap_token")?.value;
+  const token = cookieStore.get(COOKIE_NAME)?.value;
   if (!token) redirect("/?auth=required");
 
   const payload = verifyToken(token);

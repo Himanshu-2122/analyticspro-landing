@@ -1,12 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 import { trackEvent } from "@/lib/gtag";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "./AuthModal";
 import WaitlistModal from "./WaitlistModal";
 import { motion, AnimatePresence } from "framer-motion";
+
+function AuthRedirectHandler({ onLoginRequired }: { onLoginRequired: () => void }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  useEffect(() => {
+    if (searchParams.get("auth") === "required") {
+      onLoginRequired();
+      router.replace("/", { scroll: false });
+    }
+  }, [searchParams, router, onLoginRequired]);
+  return null;
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -36,6 +49,9 @@ export default function Navbar() {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <AuthRedirectHandler onLoginRequired={() => { setAuthTab("login"); setAuthOpen(true); }} />
+      </Suspense>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
@@ -76,7 +92,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
                     <div className="w-6 h-6 rounded-full bg-violet-600 flex items-center justify-center text-white text-xs font-bold">
-                      {user.name[0].toUpperCase()}
+                      {(user.name?.[0] ?? "U").toUpperCase()}
                     </div>
                     <span className="text-white text-sm font-medium">{user.name.split(" ")[0]}</span>
                   </div>

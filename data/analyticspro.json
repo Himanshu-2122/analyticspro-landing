@@ -12,6 +12,22 @@
   "contacts": [],
   "users": [
     {
+      "id": 2,
+      "name": "ugiufwebiufwe",
+      "email": "lkns@gmail.com",
+      "password": "$2a$12$prlcWG/7NSzZhOabJHBwN.Q.NsXgZxtnHtI8prbFAFEDZuEO7394C",
+      "role": "user",
+      "email_verified": 0,
+      "email_verify_token": "fe532eedcf0bca62df28cf78540e7d2fc673f342c22b945777c6c2c59cb29f58",
+      "password_reset_token": null,
+      "password_reset_expires": null,
+      "login_attempts": 0,
+      "lockout_until": null,
+      "google_id": null,
+      "avatar_url": null,
+      "created_at": "2026-05-27T18:05:33.095Z"
+    },
+    {
       "id": 1,
       "name": "himanshu",
       "email": "hi.himanshu21@gmail.com",

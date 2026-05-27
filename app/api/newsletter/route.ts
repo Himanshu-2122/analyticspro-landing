@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
     const { email } = parsed.data;
     if (db.subscriberExists(email)) {
-      return NextResponse.json({ error: "This email is already subscribed." }, { status: 409 });
+      return NextResponse.json({ success: true, message: "You're already subscribed — thanks!" });
     }
 
     db.addSubscriber(email);

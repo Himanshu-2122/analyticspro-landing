@@ -38,16 +38,22 @@ export async function GET(req: NextRequest) {
       sub: string; name: string; email: string; picture?: string;
     };
 
-    // Find or create user
-    let user = db.findUserByGoogleId(profile.sub) ?? db.findUserByEmail(profile.email);
+    // Find or create user; link Google ID if account already exists by email
+    let user = db.findUserByGoogleId(profile.sub);
     if (!user) {
-      user = db.createUser({
-        name: profile.name,
-        email: profile.email,
-        googleId: profile.sub,
-        avatarUrl: profile.picture,
-        emailVerified: true,
-      });
+      const existing = db.findUserByEmail(profile.email);
+      if (existing) {
+        if (!existing.google_id) db.updateUserGoogleId(existing.id, profile.sub);
+        user = db.findUserById(existing.id)!;
+      } else {
+        user = db.createUser({
+          name: profile.name,
+          email: profile.email,
+          googleId: profile.sub,
+          avatarUrl: profile.picture,
+          emailVerified: true,
+        });
+      }
     }
 
     const jwtToken = signToken({ userId: user.id, email: user.email, name: user.name, role: user.role });

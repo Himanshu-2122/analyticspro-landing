@@ -21,7 +21,10 @@ export async function POST(req: NextRequest) {
 
     const { name, email, company } = parsed.data;
     if (db.waitlistExists(email)) {
-      return NextResponse.json({ error: "You're already on the waitlist!" }, { status: 409 });
+      return NextResponse.json({
+        success: true,
+        message: "You're already on the waitlist! We'll be in touch soon.",
+      });
     }
 
     db.addToWaitlist(name, email, company ?? "");

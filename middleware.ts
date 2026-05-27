@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const COOKIE_NAME = "ap_token";
+import { COOKIE_NAME } from "@/lib/constants";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get(COOKIE_NAME)?.value;

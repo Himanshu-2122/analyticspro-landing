@@ -42,7 +42,9 @@ export async function POST(req: NextRequest) {
     });
     setAuthCookie(res, token);
 
-    await sendAuthWelcome(name, email, user.email_verify_token ?? "");
+    if (user.email_verify_token) {
+      await sendAuthWelcome(name, email, user.email_verify_token);
+    }
     return res;
   } catch {
     return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });

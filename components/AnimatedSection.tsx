@@ -8,6 +8,8 @@ interface AnimatedSectionProps {
   className?: string;
   delay?: number;
   direction?: "up" | "down" | "left" | "right" | "none";
+  blur?: boolean;
+  scale?: boolean;
 }
 
 export default function AnimatedSection({
@@ -15,24 +17,41 @@ export default function AnimatedSection({
   className = "",
   delay = 0,
   direction = "up",
+  blur = false,
+  scale = false,
 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  const variants = {
-    up: { opacity: 0, y: 40 },
-    down: { opacity: 0, y: -40 },
-    left: { opacity: 0, x: -40 },
-    right: { opacity: 0, x: 40 },
-    none: { opacity: 0 },
+  const directionMap = {
+    up: { y: 48 },
+    down: { y: -48 },
+    left: { x: -48 },
+    right: { x: 48 },
+    none: {},
   };
+
+  const initial = {
+    opacity: 0,
+    ...directionMap[direction],
+    ...(blur ? { filter: "blur(8px)" } : {}),
+    ...(scale ? { scale: 0.94 } : {}),
+  };
+
+  const animate = isInView
+    ? { opacity: 1, y: 0, x: 0, filter: "blur(0px)", scale: 1 }
+    : initial;
 
   return (
     <motion.div
       ref={ref}
-      initial={variants[direction]}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : variants[direction]}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      initial={initial}
+      animate={animate}
+      transition={{
+        duration: 0.75,
+        delay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       className={className}
     >
       {children}
